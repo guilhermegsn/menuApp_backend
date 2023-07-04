@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import Establishment from "./Establishment";
 
 const Order = new mongoose.Schema({
 	user: {
@@ -12,6 +11,8 @@ const Order = new mongoose.Schema({
 		ref: 'Establishment',
 		required: true
 	},
+	userName: {type: String},
+	local: {type: String},
 	items: [
 		{
 			name: {

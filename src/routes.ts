@@ -29,6 +29,9 @@ routes.delete("/establishment/:establishmentId/menu/:menuId/:menuItemId", Establ
 
 //Order
 routes.post("/order", OrderController.create)
-routes.get("/order/:establishmentId", OrderController.find)
+routes.get("/order/establishment/:establishmentId", OrderController.findByEstablishment)
+routes.get("/order/user/:userId", OrderController.findByUser)
+routes.post("/order/:orderId", OrderController.addItems)
+routes.put("/order/:orderId/finalize", OrderController.finalizeOrder)
 
 export default routes
