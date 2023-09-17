@@ -1,11 +1,9 @@
-import { Request, Response } from "express"
 import mongoose from "mongoose";
 import Establishment from "../database/schema/Establishment"
 import { generateUniqueHash } from '../services/functions'
 
 class establishmentController {
-
-	async create(request: Request, response: Response) {
+	async create(request, response) {
 		const data = {
 			name: request.body.name,
 			fullname: request.body.fullname,
@@ -41,7 +39,7 @@ class establishmentController {
 		}
 	}
 
-	async update(request: Request, response: Response) {
+	async update(request, response) {
 		const data = {
 			name: request.body.name,
 			fullname: request.body.fullname,
@@ -81,7 +79,7 @@ class establishmentController {
 		}
 	}
 
-	async find(request: Request, response: Response) {
+	async find(request, response) {
 		try {
 			const { establishmentId } = request.params;
 			const establishment = await Establishment.findById(establishmentId)
@@ -94,7 +92,7 @@ class establishmentController {
 		}
 	}
 
-	async delete(request: Request, response: Response) {
+	async delete(request, response) {
 		try {
 			const { establishmentId } = request.params;
 			await Establishment.findByIdAndDelete(establishmentId);
@@ -108,7 +106,7 @@ class establishmentController {
 	}
 	
 
-	async findAll(request: Request, response: Response) {
+	async findAll(request, response) {
 		try {
 			const establishments = await Establishment.find()
 			return response.json(establishments)
@@ -122,7 +120,7 @@ class establishmentController {
 
 	
 
-	async createMenu(request: Request, response: Response) {
+	async createMenu(request, response) {
 		try {
 			const { menuName, menuItems } = request.body
 			const { establishmentId } = request.params;
@@ -142,10 +140,10 @@ class establishmentController {
 		}
 	}
 
-	async updateMenu(request: Request, response: Response) {
+	async updateMenu(request, response) {
 		try {
 			const { establishmentId, menuId } = request.params;
-			const { menuName, menuItems } = request.body;
+			const { menuName, menuItems, urlImg } = request.body;
 			if (!mongoose.Types.ObjectId.isValid(establishmentId)) {
 				return response.status(404).json({
 					error: "Invalid ID",
@@ -157,6 +155,7 @@ class establishmentController {
 				{
 					$set: {
 						"menu.$[menu].menuName": menuName,
+						"menu.$[menu].urlImg": urlImg,
 						"menu.$[menu].menuItems": menuItems,
 					},
 				},
@@ -181,7 +180,7 @@ class establishmentController {
 		}
 	}
 
-	async deleteMenu(request: Request, response: Response) {
+	async deleteMenu(request, response) {
 		try {
 			const { establishmentId, menuId } = request.params;
 			if (!mongoose.Types.ObjectId.isValid(establishmentId)) {
@@ -217,7 +216,7 @@ class establishmentController {
 		}
 	}
 
-	async createMenuItem(request: Request, response: Response) {
+	async createMenuItem(request, response) {
 		try {
 			const { establishmentId, menuId } = request.params;
 			const menuItem = request.body;
@@ -260,7 +259,7 @@ class establishmentController {
 	}
 		
 
-	async updateMenuItem(request: Request, response: Response) {
+	async updateMenuItem(request, response) {
 		try {
 			const { establishmentId, menuId, menuItemId } = request.params;
 			const data = {
@@ -313,7 +312,7 @@ class establishmentController {
 	}
 	
 	
-	async deleteMenuItem(request: Request, response: Response) {
+	async deleteMenuItem(request, response) {
 		try {
 			const { establishmentId, menuId, menuItemId } = request.params;
 			if (!mongoose.Types.ObjectId.isValid(establishmentId)) {

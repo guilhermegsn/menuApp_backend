@@ -62,6 +62,9 @@ const Establishment = new mongoose.Schema({
 				type: String,
 				required: true
 			},
+			urlImg: {
+				type: String,
+			},
 			menuItems: [
 				{
 					itemName: {
