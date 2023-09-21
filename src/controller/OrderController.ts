@@ -1,15 +1,15 @@
-import { Request, Response } from "express"
 import Order from "../database/schema/Order"
 
 
 class orderController {
-	async create(request: Request, response: Response) {
+	async create(request, response) {
 		try {
 			const data = {
 				user: request.body.user,
-				establishment: request.body.establishment,
-				status: request.body.status,
-				items: request.body.items
+				establishment: '64d442c645841a5a831e8ec2', //request.body.establishment,
+				status: 1,
+				items: request.body.items,
+				local: request.body.local
 			};
 			const order = await Order.create(data);
 			return response.json(order);
@@ -22,7 +22,7 @@ class orderController {
 	}
 
 
-	async addItems(request: Request, response: Response) {
+	async addItems(request, response) {
 		const { items } = request.body
 		const { orderId } = request.params
 		try {
@@ -43,7 +43,7 @@ class orderController {
 		}
 	  }
 
-	  async finalizeOrder(request: Request, response: Response) {
+	  async finalizeOrder(request, response) {
 		const { orderId } = request.params
 		const date = new Date()
 		try {
@@ -66,7 +66,7 @@ class orderController {
 	  }
 
 
-	async findByEstablishment(request: Request, response: Response) {
+	async findByEstablishment(request, response) {
 		try {
 			const { establishmentId } = request.params;
 			const establishmentOrder = await Order.find({ establishment: establishmentId, status: 1 })
@@ -79,7 +79,7 @@ class orderController {
 		}
 	}
 
-	async findByUser(request: Request, response: Response) {
+	async findByUser(request,response) {
 		try {
 			const { userId } = request.params;
 			const userOrder = await Order.find({ user: userId, status: 1 })
